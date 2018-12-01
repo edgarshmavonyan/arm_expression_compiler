@@ -209,7 +209,9 @@ jit_compile_expression_to_arm(const char * expression,
   for (size_t i = 0; externs != nullptr && externs[i].pointer != 0; ++i) {
     extern_map[std::string(externs[i].name)] = externs[i].pointer;
   }
-  auto [output_queue, numb_match] = ShuntingYardAlgorithm(expression);
+  auto postfix_expression = ShuntingYardAlgorithm(expression);
+  auto& output_queue = postfix_expression.first;
+  auto& numb_match = postfix_expression.second;
   WriteInstruction(PushInstruction(true, 0), cur_pointer);
   WriteInstruction(PUSH_R4_INSTRUCTION, cur_pointer);
   while (!output_queue.empty()) {
